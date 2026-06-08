@@ -1,131 +1,212 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, type Variants } from "framer-motion";
 import Image from "next/image";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, Star, CheckCircle } from "lucide-react";
 import { projects } from "@/data/portfolio";
+import SectionHeader from "@/components/ui/SectionHeader";
+import SkillBadge from "@/components/ui/SkillBadge";
 
-const projectImages = [
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=800&auto=format&fit=crop",
-];
+const stagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const fadeUp: Variants = {
+  hidden:  { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" as const } },
+};
+
+function ProjectLinks({ github, demo }: { github?: string; demo?: string }) {
+  return (
+    <div className="flex gap-3">
+      {github && (
+        <a
+          href={github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#fffaf5] border border-[#ececec] text-[#111] hover:border-[#ff6b00]/40 hover:text-[#ff6b00] hover:bg-white transition-all text-sm font-bold shadow-sm"
+        >
+          <Github className="w-4 h-4" />
+          View Code
+        </a>
+      )}
+      {demo && (
+        <a
+          href={demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-gradient-to-r from-[#ff6b00] to-[#ff9d4d] text-white hover:shadow-[0_8px_24px_rgba(255,107,0,0.3)] transition-all text-sm font-bold shadow-sm"
+        >
+          <ExternalLink className="w-4 h-4" />
+          Live Demo
+        </a>
+      )}
+    </div>
+  );
+}
 
 export default function ProjectsSection() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const ref    = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  // First 2 projects are "featured" (full-detail), rest go in the grid
+  const featuredProjects = projects.filter((p) => p.featured);
+  const gridProjects     = projects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="relative py-24 overflow-hidden bg-[#fffaf5]">
+    <section id="projects" className="relative py-28 overflow-hidden bg-white scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        {/* Header */}
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          variants={stagger}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fff4ea] text-[#ff6b00] text-sm font-bold mb-4">
-            Portfolio
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-black text-[#111111]">
-            Featured <span className="text-[#ff6b00]">Projects</span>
-          </h2>
-        </motion.div>
+          <motion.div variants={fadeUp}>
+            <SectionHeader
+              tag="Portfolio"
+              title="Featured Projects"
+              highlight="Projects"
+              subtitle="Handpicked work that demonstrates my ability to build real-world Angular and full-stack applications from scratch."
+            />
+          </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {projects.map((project, i) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group flex flex-col w-full bg-white rounded-[2rem] overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.04)] border border-[#ececec] hover:-translate-y-2 transition-all duration-300"
-            >
-              {/* Image Container */}
-              <div className="relative w-full aspect-[4/3] overflow-hidden border-b border-[#f0f0f0]">
-                {/* Fallback to standard img tag to bypass next/image domain restrictions for external URLs */}
-                <img
-                  src={projectImages[i] || projectImages[0]}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-
-              {/* Content */}
-              <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-[#111111] font-bold text-xl mb-3">
-                  {project.title}
-                </h3>
-                <p className="text-[#666666] text-sm mb-6 line-clamp-2 leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2 mb-8 mt-auto">
-                  {project.tech.slice(0, 3).map((t: string) => (
-                    <span
-                      key={t}
-                      className="px-2.5 py-1 rounded-lg bg-[#fffcf8] border border-[#ececec] text-[#111111] text-[11px] font-bold uppercase tracking-wider shadow-sm"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                  {project.tech.length > 3 && (
-                    <span className="px-2.5 py-1 rounded-lg bg-[#fffcf8] border border-[#ececec] text-[#111111] text-[11px] font-bold uppercase tracking-wider shadow-sm">
-                      +{project.tech.length - 3}
-                    </span>
-                  )}
+          {/* Featured Projects — alternating full-width layout */}
+          <div className="space-y-10 mb-16">
+            {featuredProjects.map((project, i) => (
+              <motion.div
+                key={project.title}
+                variants={fadeUp}
+                className={`group grid lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden border border-[#ececec] shadow-[0_12px_48px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.07)] hover:border-[#ff6b00]/20 transition-all duration-400 ${i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}
+              >
+                {/* Screenshot */}
+                <div className="relative w-full aspect-video lg:aspect-auto lg:min-h-[360px] overflow-hidden bg-[#f5f5f5]">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  {/* Featured badge */}
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#ff6b00] text-white text-xs font-bold shadow-lg">
+                    <Star className="w-3 h-3 fill-white" />
+                    Featured
+                  </div>
                 </div>
 
-                {/* Links */}
-                <div className="flex gap-3 pt-4 border-t border-[#f0f0f0]">
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-[#fffaf5] border border-[#ececec] text-[#111111] hover:bg-white hover:border-[#ff6b00] hover:text-[#ff6b00] transition-colors text-sm font-bold shadow-sm"
-                    >
-                      <Github className="w-4 h-4" />
-                      Code
-                    </a>
-                  )}
-                  {project.demo && (
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#ff6b00] to-[#ff9d4d] text-white hover:shadow-[0_8px_20px_rgba(255,107,0,0.2)] transition-all text-sm font-bold shadow-sm"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Live Demo
-                    </a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                {/* Content */}
+                <div className="p-8 lg:p-10 flex flex-col justify-between bg-white">
+                  <div>
+                    <h3 className="text-2xl font-black text-[#111] mb-4 leading-tight">{project.title}</h3>
 
-        {/* View all */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center mt-16"
-        >
-          <a
-            href="https://github.com/PriyanshuKhakkhar"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-[#ececec] bg-white text-[#111111] font-bold hover:border-[#ff6b00] hover:text-[#ff6b00] transition-all shadow-sm"
+                    {/* Problem / Solution */}
+                    <div className="space-y-4 mb-6">
+                      <div>
+                        <p className="text-[10px] font-black text-[#ff6b00] uppercase tracking-widest mb-1.5">Problem</p>
+                        <p className="text-sm text-[#666] leading-relaxed">{project.problemStatement}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black text-[#22c55e] uppercase tracking-widest mb-1.5">Solution</p>
+                        <p className="text-sm text-[#555] leading-relaxed">{project.solution}</p>
+                      </div>
+                    </div>
+
+                    {/* Key achievements */}
+                    <div className="mb-6">
+                      <p className="text-[10px] font-black text-[#555] uppercase tracking-widest mb-3">Key Achievements</p>
+                      <ul className="space-y-2">
+                        {project.keyAchievements.map((a) => (
+                          <li key={a} className="flex items-start gap-2 text-sm text-[#555]">
+                            <CheckCircle className="w-4 h-4 text-[#ff6b00] flex-shrink-0 mt-0.5" />
+                            {a}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Tech */}
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {project.tech.map((t) => (
+                        <SkillBadge key={t} name={t} variant="compact" />
+                      ))}
+                    </div>
+                  </div>
+
+                  <ProjectLinks github={project.github} demo={project.demo} />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Grid Projects */}
+          {gridProjects.length > 0 && (
+            <>
+              <motion.h3
+                variants={fadeUp}
+                className="text-sm font-black text-[#888] uppercase tracking-widest mb-8 text-center"
+              >
+                More Projects
+              </motion.h3>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {gridProjects.map((project) => (
+                  <motion.div
+                    key={project.title}
+                    variants={fadeUp}
+                    className="group flex flex-col w-full bg-white rounded-3xl overflow-hidden border border-[#ececec] shadow-sm hover:-translate-y-2 hover:shadow-[0_16px_48px_rgba(0,0,0,0.06)] hover:border-[#ff6b00]/20 transition-all duration-300"
+                  >
+                    {/* Screenshot */}
+                    <div className="relative w-full aspect-[16/9] overflow-hidden border-b border-[#f0f0f0] bg-[#f5f5f5]">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-7 flex flex-col flex-grow">
+                      <h3 className="text-[#111] font-black text-lg mb-2">{project.title}</h3>
+                      <p className="text-[#666] text-sm mb-5 line-clamp-2 leading-relaxed flex-grow">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.tech.slice(0, 4).map((t) => (
+                          <SkillBadge key={t} name={t} variant="compact" />
+                        ))}
+                        {project.tech.length > 4 && (
+                          <span className="px-3 py-1.5 rounded-xl bg-[#fffcf8] border border-[#ececec] text-[11px] font-bold text-[#888]">
+                            +{project.tech.length - 4}
+                          </span>
+                        )}
+                      </div>
+                      <div className="border-t border-[#f0f0f0] pt-5">
+                        <ProjectLinks github={project.github} demo={project.demo} />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* GitHub CTA */}
+          <motion.div
+            variants={fadeUp}
+            className="text-center mt-14"
           >
-            <Github className="w-5 h-5" />
-            More on GitHub
-          </a>
+            <a
+              href="https://github.com/PriyanshuKhakkhar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full border border-[#ececec] bg-white text-[#111] font-bold hover:border-[#ff6b00]/40 hover:text-[#ff6b00] hover:bg-[#fffaf5] transition-all shadow-sm text-sm"
+            >
+              <Github className="w-5 h-5" />
+              View All Projects on GitHub
+            </a>
+          </motion.div>
         </motion.div>
       </div>
     </section>

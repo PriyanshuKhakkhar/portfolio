@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Colors for Boards -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="accentOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff8c00" />
+      <stop offset="100%" stop-color="#ff5500" />
+    </linearGradient>
+
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+
+    <!-- Grid lines pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1f2937" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <!-- Base Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+  <rect width="800" height="600" fill="url(#grid)" />
+
+  <!-- Accent Glow -->
+  <circle cx="450" cy="250" r="220" fill="#a855f7" opacity="0.05" filter="blur(70px)" />
+
+  <!-- Board Container -->
+  <rect x="60" y="50" width="680" height="500" rx="16" fill="#111827" stroke="#1e293b" stroke-width="4" />
+  
+  <!-- Browser Header/Bar -->
+  <rect x="60" y="50" width="680" height="40" rx="16" fill="#030712" />
+  <!-- Window buttons -->
+  <circle cx="90" cy="70" r="6" fill="#ef4444" />
+  <circle cx="110" cy="70" r="6" fill="#f59e0b" />
+  <circle cx="130" cy="70" r="6" fill="#10b981" />
+  <!-- URL Bar -->
+  <rect x="180" y="58" width="440" height="24" rx="6" fill="#1f2937" />
+  <text x="200" y="74" fill="#64748b" font-family="sans-serif" font-size="12">kanban-flow.priyanshu.dev/board</text>
+
+  <!-- Title & Action Bar -->
+  <g transform="translate(60, 90)">
+    <text x="30" y="40" fill="#ffffff" font-family="sans-serif" font-size="18" font-weight="bold">Product Roadmap</text>
+    <!-- Mini buttons -->
+    <rect x="480" y="22" width="80" height="26" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="495" y="38" fill="#cbd5e1" font-family="sans-serif" font-size="11" font-weight="bold">Add Column</text>
+    
+    <rect x="575" y="22" width="75" height="26" rx="6" fill="url(#accentOrange)" />
+    <text x="590" y="38" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="bold">+ New Task</text>
+
+    <!-- Column 1: Backlog -->
+    <g transform="translate(30, 70)">
+      <rect x="0" y="0" width="190" height="360" rx="10" fill="#0f172a" opacity="0.6" stroke="#1e293b" stroke-width="1.5" />
+      <text x="15" y="30" fill="#94a3b8" font-family="sans-serif" font-size="13" font-weight="bold">BACKLOG</text>
+      <rect x="150" y="16" width="24" height="18" rx="4" fill="#1e293b" />
+      <text x="159" y="29" fill="#64748b" font-family="sans-serif" font-size="11" font-weight="bold">3</text>
+      
+      <!-- Card 1.1 -->
+      <rect x="10" y="50" width="170" height="85" rx="8" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" />
+      <rect x="20" y="65" width="40" height="6" rx="2" fill="#3b82f6" />
+      <rect x="20" y="80" width="130" height="8" rx="2" fill="#f8fafc" />
+      <rect x="20" y="94" width="90" height="8" rx="2" fill="#475569" />
+      <!-- User avatar dot -->
+      <circle cx="150" cy="115" r="10" fill="#ef4444" />
+    </g>
+
+    <!-- Column 2: In Progress -->
+    <g transform="translate(245, 70)">
+      <rect x="0" y="0" width="190" height="360" rx="10" fill="#0f172a" opacity="0.6" stroke="#1e293b" stroke-width="1.5" />
+      <text x="15" y="30" fill="#ff6b00" font-family="sans-serif" font-size="13" font-weight="bold">IN PROGRESS</text>
+      <rect x="150" y="16" width="24" height="18" rx="4" fill="#ff6b00" fill-opacity="0.1" />
+      <text x="159" y="29" fill="#ff6b00" font-family="sans-serif" font-size="11" font-weight="bold">2</text>
+
+      <!-- Card 2.1 (Highlighted/Dragged visual) -->
+      <rect x="10" y="50" width="170" height="95" rx="8" fill="url(#cardGrad)" stroke="#ff6b00" stroke-width="2" />
+      <rect x="20" y="65" width="55" height="6" rx="2" fill="url(#accentOrange)" />
+      <!-- Task description text lines -->
+      <rect x="20" y="80" width="130" height="8" rx="2" fill="#ffffff" />
+      <rect x="20" y="94" width="110" height="8" rx="2" fill="#ffffff" />
+      <rect x="20" y="108" width="70" height="8" rx="2" fill="#475569" />
+      <!-- Avatars stacked -->
+      <circle cx="130" cy="125" r="9" fill="#8b5cf6" />
+      <circle cx="145" cy="125" r="9" fill="#ec4899" />
+      
+      <!-- Card 2.2 -->
+      <rect x="10" y="155" width="170" height="85" rx="8" fill="url(#cardGrad)" stroke="#334155" stroke-width="1" />
+      <rect x="20" y="170" width="45" height="6" rx="2" fill="#10b981" />
+      <rect x="20" y="185" width="120" height="8" rx="2" fill="#f8fafc" />
+      <rect x="20" y="199" width="80" height="8" rx="2" fill="#475569" />
+      <circle cx="150" cy="220" r="10" fill="#3b82f6" />
+    </g>
+
+    <!-- Column 3: Done -->
+    <g transform="translate(460, 70)">
+      <rect x="0" y="0" width="190" height="360" rx="10" fill="#0f172a" opacity="0.6" stroke="#1e293b" stroke-width="1.5" />
+      <text x="15" y="30" fill="#10b981" font-family="sans-serif" font-size="13" font-weight="bold">DONE</text>
+      <rect x="150" y="16" width="24" height="18" rx="4" fill="#10b981" fill-opacity="0.1" />
+      <text x="159" y="29" fill="#10b981" font-family="sans-serif" font-size="11" font-weight="bold">12</text>
+
+      <!-- Card 3.1 -->
+      <rect x="10" y="50" width="170" height="85" rx="8" fill="url(#cardGrad)" stroke="#1e293b" stroke-width="1" opacity="0.8" />
+      <!-- Checked indicator -->
+      <circle cx="28" cy="72" r="8" fill="#10b981" />
+      <path d="M 25 72 L 27 74 L 31 70" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+      <!-- Strikethrough text -->
+      <rect x="45" y="70" width="100" height="6" rx="1.5" fill="#475569" />
+      <rect x="20" y="90" width="110" height="8" rx="2" fill="#475569" opacity="0.5" />
+      <circle cx="150" cy="115" r="10" fill="#f59e0b" />
+    </g>
+  </g>
+</svg>

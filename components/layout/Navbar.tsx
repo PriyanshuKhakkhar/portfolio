@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Code2, Sun, Moon, Send } from "lucide-react";
+import { Menu, X, Code2, Send } from "lucide-react";
 import { navLinks } from "@/data/portfolio";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ export default function Navbar() {
   const activeSection = useActiveSection(sectionIds);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -28,16 +28,16 @@ export default function Navbar() {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-6 px-4 pointer-events-none"
-        initial={{ y: -50, opacity: 0 }}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5 px-4 pointer-events-none"
+        initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         <nav
           className={cn(
-            "pointer-events-auto w-full max-w-6xl rounded-full transition-all duration-300",
+            "pointer-events-auto w-full max-w-6xl rounded-2xl transition-all duration-300",
             scrolled
-              ? "bg-white/90 backdrop-blur-md shadow-sm border border-[#ececec] py-3 px-6"
+              ? "bg-white/92 backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-[#ececec] py-3 px-6"
               : "bg-transparent py-4 px-6 border border-transparent"
           )}
         >
@@ -47,16 +47,16 @@ export default function Navbar() {
               onClick={() => handleNavClick("#home")}
               className="flex items-center gap-2 group transition-transform hover:scale-105"
             >
-              <div className="relative text-[#ff6b00]">
-                <Code2 className="w-8 h-8" strokeWidth={2.5} />
+              <div className="w-8 h-8 rounded-lg bg-[#fff4ea] border border-[#ff6b00]/20 flex items-center justify-center">
+                <Code2 className="w-4 h-4 text-[#ff6b00]" strokeWidth={2.5} />
               </div>
-              <span className="font-bold text-xl text-[#111] tracking-tight">
+              <span className="font-black text-xl text-[#111] tracking-tight">
                 PK<span className="text-[#ff6b00]">.dev</span>
               </span>
             </button>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.replace("#", "");
                 return (
@@ -64,17 +64,17 @@ export default function Navbar() {
                     key={link.href}
                     onClick={() => handleNavClick(link.href)}
                     className={cn(
-                      "relative text-[15px] font-bold transition-colors duration-200",
+                      "relative px-3 py-2 text-[13px] font-bold rounded-lg transition-all duration-200",
                       isActive
-                        ? "text-[#ff6b00]"
-                        : "text-[#111111] hover:text-[#ff6b00]"
+                        ? "text-[#ff6b00] bg-[#fff4ea]"
+                        : "text-[#555] hover:text-[#ff6b00] hover:bg-[#fff9f5]"
                     )}
                   >
-                    <span className="relative z-10">{link.label}</span>
+                    {link.label}
                     {isActive && (
                       <motion.div
-                        layoutId="nav-dot"
-                        className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#ff6b00]"
+                        layoutId="nav-active"
+                        className="absolute inset-0 rounded-lg bg-[#fff4ea] -z-10"
                         transition={{ type: "spring", stiffness: 400, damping: 30 }}
                       />
                     )}
@@ -83,25 +83,22 @@ export default function Navbar() {
               })}
             </div>
 
-            {/* CTAs */}
-            <div className="hidden md:flex items-center gap-4">
-              <button className="w-10 h-10 rounded-full bg-white border border-[#ececec] flex items-center justify-center text-[#111] hover:bg-gray-50 transition-colors shadow-sm">
-                <Sun className="w-5 h-5" />
-              </button>
-              
+            {/* CTA */}
+            <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={() => handleNavClick("#contact")}
-                className="px-6 py-2.5 text-sm font-bold rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ff9d4d] text-white hover:shadow-[0_4px_15px_rgba(255,107,0,0.3)] transition-all flex items-center gap-2"
+                className="px-5 py-2.5 text-sm font-bold rounded-xl bg-gradient-to-r from-[#ff6b00] to-[#ff9d4d] text-white hover:shadow-[0_4px_16px_rgba(255,107,0,0.35)] hover:-translate-y-0.5 transition-all flex items-center gap-2"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-3.5 h-3.5" />
                 Hire Me
               </button>
             </div>
 
             {/* Mobile Toggle */}
             <button
-              className="md:hidden relative z-50 p-2.5 rounded-full text-[#111] bg-white border border-[#ececec] shadow-sm"
+              className="lg:hidden relative z-50 p-2.5 rounded-xl text-[#111] bg-white border border-[#ececec] shadow-sm"
               onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -113,26 +110,28 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 md:hidden bg-white/95 backdrop-blur-md flex flex-col items-center justify-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed inset-0 z-40 lg:hidden bg-white/97 backdrop-blur-xl flex flex-col items-center justify-center"
           >
-            <div className="flex flex-col items-center gap-6 w-full px-8">
+            <div className="flex flex-col items-center gap-2 w-full px-8">
               {navLinks.map((link, i) => {
                 const isActive = activeSection === link.href.replace("#", "");
                 return (
                   <motion.button
                     key={link.href}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ delay: i * 0.05 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ delay: i * 0.04 }}
                     onClick={() => handleNavClick(link.href)}
                     className={cn(
-                      "text-2xl font-bold transition-colors",
-                      isActive ? "text-[#ff6b00]" : "text-[#111] hover:text-[#ff6b00]"
+                      "w-full py-3 px-6 rounded-2xl text-xl font-bold transition-colors text-center",
+                      isActive
+                        ? "text-[#ff6b00] bg-[#fff4ea]"
+                        : "text-[#111] hover:text-[#ff6b00] hover:bg-[#fffaf5]"
                     )}
                   >
                     {link.label}
@@ -140,12 +139,12 @@ export default function Navbar() {
                 );
               })}
               <motion.button
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: 0.3 }}
+                exit={{ opacity: 0, y: 12 }}
+                transition={{ delay: 0.35 }}
                 onClick={() => handleNavClick("#contact")}
-                className="mt-6 px-8 py-3 rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ff9d4d] text-white font-bold text-lg w-full flex items-center justify-center gap-2 shadow-lg shadow-orange-500/30"
+                className="mt-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#ff6b00] to-[#ff9d4d] text-white font-bold text-lg w-full flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25"
               >
                 <Send className="w-5 h-5" />
                 Hire Me
