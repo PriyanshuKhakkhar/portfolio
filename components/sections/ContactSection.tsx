@@ -147,6 +147,7 @@ export default function ContactSection() {
                   href={href}
                   target={href.startsWith("mailto") ? "_self" : "_blank"}
                   rel="noopener noreferrer"
+                  download={label === "Resume" ? "Priyanshu_Khakkhar_Resume.pdf" : undefined}
                   className={`group flex items-center gap-5 p-5 rounded-2xl bg-white border border-[#ececec] shadow-sm transition-all duration-200 ${color} hover:-translate-y-0.5 hover:shadow-md`}
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#f7f7f7] border border-[#e8e8e8] flex items-center justify-center transition-all group-hover:border-transparent">

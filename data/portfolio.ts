@@ -11,7 +11,7 @@ export const navLinks = [
 ];
 
 // ─── Links ─────────────────────────────────────────────────────────────────
-export const resumeUrl = "https://priyanshu-resume-fea579.tiiny.site/";
+export const resumeUrl = "/Priyanshu_Khakkhar_Resume.pdf";
 
 export const socialLinks = {
   github: "https://github.com/priyanshukhakkhar",
@@ -234,9 +234,9 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    title: "Kanban Board – Project Management App",
+    title: "Kanban Board Management System",
     description:
-      "A drag-and-drop Kanban board for agile project management with real-time task tracking, team collaboration, and priority management across customizable project columns.",
+      "A modern Trello-inspired project management platform featuring authentication, drag-and-drop task management, role-based workflows, responsive dashboard, search, and filtering.",
     problemStatement:
       "Teams needed a lightweight, fast project management tool with drag-and-drop task tracking, without the complexity of enterprise tools.",
     solution:
@@ -247,9 +247,10 @@ export const projects: Project[] = [
       "Priority & deadline management",
       "Responsive layout for all devices",
     ],
-    tech: ["Angular", "TypeScript", "Angular CDK", "SCSS", "REST APIs"],
+    tech: ["Angular", "TypeScript", "SCSS", "RxJS", "REST API"],
     github: "https://github.com/priyanshukhakkhar",
-    image: "/projects/kanban.svg",
+    demo: "https://kanban-board-plum-five.vercel.app/",
+    image: "/projects/Screenshot 2026-06-10 at 4.05.18 PM.png",
     featured: true,
   },
   {

@@ -18,10 +18,60 @@ import {
 import { socialLinks, resumeUrl } from "@/data/portfolio";
 
 const techBadges = [
-  { label: "Angular",    bg: "bg-red-50",    border: "border-red-100",    text: "text-red-600",    emoji: "🅰️" },
-  { label: "TypeScript", bg: "bg-blue-50",   border: "border-blue-100",   text: "text-blue-600",   emoji: "TS" },
-  { label: "RxJS",       bg: "bg-purple-50", border: "border-purple-100", text: "text-purple-600", emoji: "♻️" },
-  { label: "Next.js",    bg: "bg-slate-50",  border: "border-slate-200",  text: "text-slate-800",  emoji: "▲" },
+  { 
+    label: "Angular",    
+    bg: "bg-red-50",    
+    border: "border-red-100",    
+    text: "text-red-600",    
+    emoji: (
+      <svg viewBox="0 0 250 250" className="w-3.5 h-3.5">
+        <polygon points="125,30 125,30 125,30 31.9,63.2 46.1,186.3 125,230 125,230 125,230 203.9,186.3 218.1,63.2" fill="#DD0031" />
+        <polygon points="125,30 125,230 125,230 203.9,186.3 218.1,63.2" fill="#C3002F" />
+        <polygon points="125,62.2 125,62.2 125,62.2 71.9,180.2 92.4,180.2 103,153.3 147,153.3 157.6,180.2 178.1,180.2" fill="#FFFFFF" />
+        <polygon points="125,129.5 125,129.5 125,129.5 112.5,101.4 137.5,101.4" fill="#FFFFFF" />
+      </svg>
+    )
+  },
+  { 
+    label: "TypeScript", 
+    bg: "bg-blue-50",   
+    border: "border-blue-100",   
+    text: "text-blue-600",   
+    emoji: (
+      <svg viewBox="0 0 100 100" className="w-3.5 h-3.5 rounded-[2px]">
+        <rect width="100" height="100" fill="#3178c6" />
+        <text x="88" y="86" fill="#ffffff" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fontWeight="bold" fontSize="50" textAnchor="end">TS</text>
+      </svg>
+    )
+  },
+  { 
+    label: "RxJS",       
+    bg: "bg-purple-50", 
+    border: "border-purple-100", 
+    text: "text-purple-600", 
+    emoji: (
+      <svg viewBox="0 0 100 100" className="w-3.5 h-3.5">
+        <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="#f4127c" />
+        <text x="50" y="65" fill="#ffffff" fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" fontWeight="bold" fontSize="42" textAnchor="middle">Rx</text>
+      </svg>
+    )
+  },
+  { 
+    label: "React JS",   
+    bg: "bg-cyan-50",   
+    border: "border-cyan-100",   
+    text: "text-cyan-600",   
+    emoji: (
+      <svg viewBox="-11.5 -10.23174 23 20.46348" className="w-4 h-4 fill-[#00d8ff] stroke-[#00d8ff] stroke-[1.2]">
+        <circle cx="0" cy="0" r="2.05" />
+        <g fill="none">
+          <ellipse rx="11" ry="4.2" />
+          <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+          <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+        </g>
+      </svg>
+    )
+  },
 ];
 
 const floatPositions = [
@@ -65,14 +115,6 @@ export default function HeroSection() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y1 = useTransform(scrollYProgress, [0, 1], [0, 80]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  const viewResume = () => {
-    if (!resumeUrl) {
-      alert("Resume not uploaded yet");
-      return;
-    }
-    window.open(resumeUrl, "_blank");
-  };
 
   return (
     <section
@@ -178,13 +220,14 @@ export default function HeroSection() {
                 View Projects
               </button>
 
-              <button
-                onClick={viewResume}
+              <a
+                href={resumeUrl}
+                download="Priyanshu_Khakkhar_Resume.pdf"
                 className="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
               >
                 <Download className="w-4 h-4" />
                 Download Resume
-              </button>
+              </a>
 
               <button
                 onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}
@@ -285,7 +328,7 @@ export default function HeroSection() {
                     <div
                       className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 backdrop-blur-md shadow-md font-bold text-xs bg-white/95 ${badge.text}`}
                     >
-                      <span className="text-sm leading-none">{badge.emoji}</span>
+                      <span className="text-sm leading-none flex items-center justify-center">{badge.emoji}</span>
                       <span>{badge.label}</span>
                     </div>
                   </motion.div>
